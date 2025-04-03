@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            font-size: 18px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Carbon Footprint Calculator</h1>
+        <form id="carbonForm">
+            <label for="electricity">1. How much electricity do you consume annually (in kWh)?</label>
+            <input type="number" id="electricity" name="electricity" required>
+
+            <label for="transportation">2. How far do you travel each year by car (in kilometers)?</label>
+            <input type="number" id="transportation" name="transportation" required>
+
+            <label for="waste">3. How much waste do you produce annually (in kilograms)?</label>
+            <input type="number" id="waste" name="waste" required>
+
+            <label for="publicTransport">4. Do you use public transportation? If yes, how often do you use it (in kilometers)?</label>
+            <input type="number" id="publicTransport" name="publicTransport" required>
+
+            <label for="flights">5. How often do you fly on airplanes each year (in kilometers or number of flights)?</label>
+            <input type="number" id="flights" name="flights" required>
+
+            <button type="button" onclick="calculateCarbonFootprint()">Calculate</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function calculateCarbonFootprint() {
+            // Get user inputs
+            const electricity = parseFloat(document.getElementById('electricity').value);
+            const transportation = parseFloat(document.getElementById('transportation').value);
+            const waste = parseFloat(document.getElementById('waste').value);
+            const publicTransport = parseFloat(document.getElementById('publicTransport').value);
+            const flights = parseFloat(document.getElementById('flights').value);
+
+            // Emission factors (example values, adjust as needed)
+            const electricityEmissionFactor = 0.92;  // kg CO2 per kWh
+            const transportationEmissionFactor = 0.2; // kg CO2 per km for a typical car
+            const wasteEmissionFactor = 0.5; // kg CO2 per kg of waste
+            const publicTransportEmissionFactor = 0.1; // kg CO2 per km for public transport
+            const flightEmissionFactor = 0.2; // kg CO2 per km for air travel
+
+            // Calculate carbon footprint for each category
+            const electricityFootprint = electricity * electricityEmissionFactor;
+            const transportationFootprint = transportation * transportationEmissionFactor;
+            const wasteFootprint = waste * wasteEmissionFactor;
+            const publicTransportFootprint = publicTransport * publicTransportEmissionFactor;
+            const flightFootprint = flights * flightEmissionFactor;
+
+            // Total carbon footprint
+            const totalFootprint = electricityFootprint + transportationFootprint + wasteFootprint + publicTransportFootprint + flightFootprint;
+
+            // Display the result
+            document.getElementById('result').innerHTML = `
+                <p>Total Carbon Footprint: <strong>${totalFootprint.toFixed(2)} kg CO2</strong></p>
+                <p>Breakdown:</p>
+                <ul>
+                    <li>Electricity: ${electricityFootprint.toFixed(2)} kg CO2</li>
+                    <li>Transportation (Car): ${transportationFootprint.toFixed(2)} kg CO2</li>
+                    <li>Waste: ${wasteFootprint.toFixed(2)} kg CO2</li>
+                    <li>Public Transportation: ${publicTransportFootprint.toFixed(2)} kg CO2</li>
+                    <li>Flights: ${flightFootprint.toFixed(2)} kg CO2</li>
+                </ul>
+            `;
+        }
+    </script>
+
+</body>
+</html>

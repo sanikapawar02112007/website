@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percentage Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .result {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ur Carbon FOOTPRINT</h1>
+
+    <form id="carbonpercentageForm">
+        <label for="question1">How many kilometers do you drive in a typical day?</label>
+        <input type="number" id="question1" placeholder="in km" required><br>
+       <label for="question2">How many kilowatt-hours (kWh) of electricity do you use per month?</label>
+        <input type="number" id="question2" placeholder="in kWh" required><br>
+
+        <label for="question3">How many kilometers do you travel by public transport each week?:</label>
+        <input type="number" id="question3" placeholder="in km" required><br>
+        <label for="question4">How many kilograms of waste do you produce per week?:</label>
+        <input type="number" id="question4" placeholder="in kg" required><br>
+
+        <label for="question5">How many meals do you eat that contain meat in a typical week?</label>
+        <input type="number" id="question5" placeholder="no. of meals" required><br>
+
+        <button type="button" onclick="calculatePercentage()">Calculate Percentage</button>
+    </form>
+
+    <div id="result" class="result"></div>
+
+    <script>
+        function calculatePercentage() {
+            // Get the marks from each subject
+            var question1 = parseFloat(document.getElementById('question1').value);
+            var question2 = parseFloat(document.getElementById('question2').value);
+            var question3 = parseFloat(document.getElementById('question3').value);
+            var question4 = parseFloat(document.getElementById('question4').value);
+            var question5 = parseFloat(document.getElementById('question5').value);
+
+            // Check if the values entered are numbers and greater than or equal to 0
+            if (isNaN(question1) || isNaN(question2) || isNaN(question3) || isNaN(question4) || isNaN(question5)) {
+                document.getElementById('result').textContent = 'Please enter valid numbers for all subjects.';
+                return;
+            }
+
+            // Calculate total marks and percentage
+            var totalMarks = question1 + question2 +question3 + question4 + question5;
+            var maxMarks = 500;  // Total maximum
+var percentage = (totalMarks / maxMarks) * 100;
+
+            // Display the result
+            document.getElementById('result').textContent = `Total Marks: ${totalMarks} / ${maxMarks} | Percentage: ${percentage.toFixed(2)}%`;
+        }
+    </script>
+
+</body>
+</html>
+
+

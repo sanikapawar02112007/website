@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .result {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Carbon Footprint Calculator</h1>
+    <form id="carbonForm">
+        <!-- Input fields for different activities -->
+        <label for="drivingKm">How many kilometers do you drive per day?</label>
+        <input type="number" id="drivingKm" placeholder="Enter km" required><br>
+
+        <label for="electricityUsage">How many kWh of electricity do you use per month?</label>
+        <input type="number" id="electricityUsage" placeholder="Enter kWh" required><br>
+
+        <label for="publicTransportKm">How many kilometers do you travel by public transport each week?</label>
+        <input type="number" id="publicTransportKm" placeholder="Enter km" required><br>
+
+        <label for="wasteKg">How many kilograms of waste do you produce per week?</label>
+        <input type="number" id="wasteKg" placeholder="Enter kg" required><br>
+
+        <label for="meatMeals">How many meat-based meals do you eat per week?</label>
+        <input type="number" id="meatMeals" placeholder="Enter meals" required><br>
+
+        <button type="button" onclick="calculateCarbonFootprint()">Calculate Carbon Footprint</button>
+    </form>
+
+    <div id="result" class="result"></div>
+
+    <script>
+        function calculateCarbonFootprint() {
+            // Get input values
+            let drivingKm = parseFloat(document.getElementById('drivingKm').value);
+            let electricityUsage = parseFloat(document.getElementById('electricityUsage').value);
+            let publicTransportKm = parseFloat(document.getElementById('publicTransportKm').value);
+            let wasteKg = parseFloat(document.getElementById('wasteKg').value);
+            let meatMeals = parseFloat(document.getElementById('meatMeals').value);
+
+            // Define emission factors for each activity
+            const emissionFactorDriving = 0.192; // kg CO2/km (for car)
+            const emissionFactorElectricity = 0.5; // kg CO2/kWh (for mixed electricity)
+            const emissionFactorPublicTransport = 0.05; // kg CO2/km (for bus/train)
+            const emissionFactorWaste = 0.1; // kg CO2/kg (for landfill waste)
+            const emissionFactorMeat = 7; // kg CO2/meal (for meat-based meals)
+
+            // Calculate carbon emissions for each activity
+            let carbonFromDriving = drivingKm * emissionFactorDriving * 7; // Weekly driving
+            let carbonFromElectricity = electricityUsage * emissionFactorElectricity / 4; // Weekly electricity
+            let carbonFromPublicTransport = publicTransportKm * emissionFactorPublicTransport; // Weekly public transport
+            let carbonFromWaste = wasteKg * emissionFactorWaste; // Weekly waste
+            let carbonFromMeat = meatMeals * emissionFactorMeat; // Weekly meat consumption
+
+            // Calculate total carbon footprint
+            let totalCarbonFootprint = carbonFromDriving + carbonFromElectricity + carbonFromPublicTransport + carbonFromWaste + carbonFromMeat;
+
+            // Calculate percentage contribution for each activity
+            let percentageDriving = (carbonFromDriving / totalCarbonFootprint) * 100;
+            let percentageElectricity = (carbonFromElectricity / totalCarbonFootprint) * 100;
+            let percentagePublicTransport = (carbonFromPublicTransport / totalCarbonFootprint) * 100;
+            let percentageWaste = (carbonFromWaste / totalCarbonFootprint) * 100;
+            let percentageMeat = (carbonFromMeat / totalCarbonFootprint) * 100;
+
+            // Display the results
+            document.getElementById('result').innerHTML = `
+                <p>Total Carbon Footprint (Weekly): <strong>${totalCarbonFootprint.toFixed(2)} kg CO2</strong></p>
+                <p>Driving: <strong>${percentageDriving.toFixed(2)}%</strong></p>
+                <p>Electricity: <strong>${percentageElectricity.toFixed(2)}%</strong></p>
+                <p>Public Transport: <strong>${percentagePublicTransport.toFixed(2)}%</strong></p>
+                <p>Waste: <strong>${percentageWaste.toFixed(2)}%</strong></p>
+                <p>Meat Consumption: <strong>${percentageMeat.toFixed(2)}%</strong></p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
